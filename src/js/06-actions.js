@@ -5,7 +5,7 @@ sd(d){SD=d;HT.date=d;R()},
 wd(id){WD=id;WE=0;WM=0;WDEL=0;WMN=0;tab='treino';R();try{scrollTo(0,0)}catch(e){}},wmn(){WMN=!WMN;R()},nr(){NR=!NR;R()},wdc(){WD=null;WE=0;WDEL=0;R()},wm(){WM=!WM;R()},we(){WE=!WE;R()},
 wsv(ei,j,f,v){const w=S.workouts.find(y=>y.id==WD);w.ex[ei].sets[j][f]=f=='time'?(+parseT(v)||0):(+v||0);saveWk(w)},
 wnm(v){const w=S.workouts.find(y=>y.id==WD);w.name=v;saveWk(w)},
-wdel(){if(!WDEL){WDEL=1;R();return}const w=S.workouts.find(y=>y.id==WD);S.workouts=S.workouts.filter(y=>y.id!=WD);if(DBC&&LOADED)DBC.doc('w_'+w.id).set({j:JSON.stringify({id:w.id,del:1})}).catch(()=>{});WD=null;WDEL=0;save();R()},
+wdel(){if(!WDEL){WDEL=1;R();return}const w=S.workouts.find(y=>y.id==WD);S.workouts=S.workouts.filter(y=>y.id!=WD);WD=null;WDEL=0;save();R()},
 gl(i){const a=S.nlog[ND]=S.nlog[ND]||{};a.w=a.w||[];if(i<a.w.length)a.w.length=i;else while(a.w.length<=i)a.w.push({n:'Água',g:250});saveN(ND);R()},sw(n){const q=new Date(SD+'T12:00');q.setDate(q.getDate()+n);SD=day(q);HT.date=SD;R()},opn(d){SD=d;HT.date=d;tab='hoje';R()},
 tog(id,dt){const h=S.habits.find(y=>y.id==id),d=dt||SD;if(d>day())return;if(h.auto&&S.workouts.some(w=>w.date===d))return;if(h.aw&&wok(d))return;h.done[d]=!h.done[d];save();R()},
 hf(k,v){if(k=='t'){v=Math.max(1,Math.min(7,Math.round(+v)||1));HF.t=v;HF.days=HF.days.slice(0,v);R();return}HF[k]=v;if(k=='f')R()},
@@ -30,7 +30,7 @@ addS(i){W.ex[i].sets.push(blank());save();R()},
 rst(i,d){W.ex[i].rest=Math.max(0,(W.ex[i].rest||0)+d);save();R()},rstd(i){S.exRest[W.ex[i].name]=W.ex[i].rest;save();R()},
 rmE(i){SM=null;if(i>0&&W.ex[i-1].lk&&!W.ex[i].lk)W.ex[i-1].lk=0;W.ex.splice(i,1);save();R()},
 fin(){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();const pend=W.ex.reduce((a,e)=>a+e.sets.filter(z=>!z.ok&&FT[e.t].some(k=>z[k]!==''&&z[k]!=null&&+z[k])).length,0);if(pend&&confirm(x('fun').replace('{n}',pend)))W.ex.forEach(e=>e.sets.forEach(z=>{if(!z.ok&&FT[e.t].some(k=>z[k]!==''&&z[k]!=null&&+z[k]))z.ok=1}));if(!W.ex.some(e=>e.sets.some(z=>z.ok))){if(confirm(x('cnd'))){W=null;RT=null;drawRT();save();R()}return}const ex=W.ex.map(e=>({name:e.name,t:e.t,...(e.lk?{lk:1}:{}),...(e.note&&e.note.trim()?{note:e.note.trim()}:{}),sets:e.sets.filter(s=>s.ok).map(s=>({reps:+s.reps||0,kg:+s.kg||0,time:+s.time||0,dist:+s.dist||0,ty:s.ty||'n'}))})).filter(e=>e.sets.length);
-if(ex.length){const w={id:Date.now(),date:day(),name:W.name,dur:Math.max(1,Math.round((Date.now()-W.t)/6e4)),ex};S.workouts.push(w);if(DBC&&LOADED)DBC.doc('w_'+w.id).set({j:JSON.stringify(w)}).catch(()=>{SY='er';drawSY()})}
+if(ex.length){const w={id:Date.now(),date:day(),name:W.name,dur:Math.max(1,Math.round((Date.now()-W.t)/6e4)),ex};S.workouts.push(w);}
 W=null;RT=null;drawRT();save();tab='hoje';R()},
 cancel(){if(!confirm(x('cwq')))return;W=null;RT=null;drawRT();save();R()},
 newR(){RB={name:'',ex:[]};R()},

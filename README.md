@@ -59,14 +59,22 @@ src/
     15-nutrition-view  ecrã Nutrição, relatório, anéis, calculadora
     16-barcode         leitor de código de barras + Open Food Facts
     17-profile         ecrã Perfil, estatísticas, calendário
+    18-extras          histórico por exercício, peso, recentes, 7 dias, exportar
+    19-online-foods    pesquisa online (Open Food Facts, USDA)
+    20-cloud           contas e sincronização com a base de dados (Supabase)
     99-main            render R() e arranque
-scripts/  serve.mjs (dev), build.mjs (src -> www), check.mjs (sintaxe), icons.cjs
+  config.js           ligação à nuvem (URL + chave pública)
+  vendor/supabase.js  biblioteca Supabase (offline)
+supabase/schema.sql   tabelas e regras de segurança da base de dados
+tests/                base de dados falsa para testes (npm run test:cloud)
+docs/ESTADO.md        estado do projeto e histórico (atualizado a cada mudança)
+scripts/  serve.mjs (dev), build.mjs (src -> www), check.mjs (sintaxe), apk.mjs, test-cloud.mjs, icons.cjs
 ```
-Dados: ficam em `localStorage` (chave `appgym1`). Os ficheiros `js/` NÃO são módulos ES — a ordem no `index.html` importa.
+Dados: ficam no aparelho (`localStorage`, chave `appgym1`, com cópia diária) e, com conta, na base de dados Supabase (`app_data` + `app_backups`). Tudo explicado em **[docs/ESTADO.md](docs/ESTADO.md)**: estado do projeto, como ligar a base de dados, garantias e histórico. Os ficheiros `js/` NÃO são módulos ES: a ordem no `index.html` importa.
 
 ## O que falta para uma app "a sério" (próximos passos sugeridos)
 1. **Base de dados de alimentos fiável**: os valores atuais são aproximados (muitos escritos de memória, marcados `~`); aminoácidos e alguns micronutrientes são estimados. Substituir por USDA FoodData Central, tabela portuguesa INSA (TCAP) e Open Food Facts (via um pequeno servidor/API ou SQLite local). Marcas/sabores (Prozis, Way Up, Continente…) só com rótulos verificados.
-2. **Armazenamento**: trocar localStorage por SQLite (`@capacitor-community/sqlite`) ou backend (Supabase/Firebase) com contas; exportar/importar JSON como backup. Os pontos a mexer são `save()`, `saveWk()`, `saveN()` e `initDB()` em `04-state-storage.js`.
+2. **Armazenamento**: feito (26-11-2026): Supabase com contas e cópias. Falta apenas criar o projeto Supabase (ver docs/ESTADO.md secção 3).
 3. **Código de barras**: no telemóvel usar um plugin nativo (ex. `@capacitor-mlkit/barcode-scanning`) em vez de `BarcodeDetector` (`16-barcode.js`).
 4. **Migrar para módulos/framework** quando fizer sentido (Vite + ES modules, ou React/Svelte): o código está separado por área para facilitar.
 5. Testes automáticos, notificações (lembretes de hábitos), sincronização entre dispositivos.

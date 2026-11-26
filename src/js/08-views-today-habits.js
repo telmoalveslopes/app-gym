@@ -15,6 +15,7 @@ hs=habsOn(d).sort((p,q)=>(hdone(p,d)?1:0)-(hdone(q,d)?1:0)),dh=hs.filter(h=>hdon
 tk=S.tasks.filter(k=>k.date===d||(isT&&k.date<d&&!k.done)),op=tk.filter(k=>!k.done),cd=tk.filter(k=>k.done),up=S.tasks.filter(k=>!k.done&&k.date>d).sort((a,b)=>a.date<b.date?-1:1),
 t=tot(d),G=goal(),kc=Math.round(t[0]);
 return `<div class="hd"><div class="grow"><h1>${x('hi')}${nm?', '+esc(nm):''}</h1><div class="mut cap">${dn}</div></div>${isT?'':`<button class="btn alt sm" onclick="A.sd('${T}')">${x('hoje')}</button>`}</div>
+${CLOUD_ON&&!CU?`<div class="hero" style="cursor:pointer;display:flex;align-items:center;gap:12px" onclick="openST()"><span style="font-size:28px">☁️</span><div class="grow"><b>${x('cta').replace('☁️ ','')}</b><div class="mut">${x('ctah')}</div></div><span class="mut">›</span></div>`:''}
 <div class="wk"><button class="wnav" onclick="A.sw(-7)">‹</button>${wd.map(z=>`<button class="wd ${z==d?'on':''}" onclick="A.sd('${z}')"><span>${DN()[dow(z)].toLowerCase()}</span><b>${+z.slice(8)}</b>${z==T?'<i></i>':''}</button>`).join('')}<button class="wnav" onclick="A.sw(7)">›</button></div>
 <div class="hero"><h2>${x('yday')}</h2><div class="rings3">
 <button onclick="A.tab('habitos')">${ring(hs.length?dh/hs.length*100:0,78,8,`${dh}/${hs.length}`,'var(--c-hab)')}<span>${x('habitos')}</span></button>

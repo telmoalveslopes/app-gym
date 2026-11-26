@@ -13,12 +13,15 @@
     "cap:sync": "npm run build && npx cap sync",
     "android": "npm run cap:sync && npx cap open android",
     "ios": "npm run cap:sync && npx cap open ios",
-    "apk": "node scripts/apk.mjs"
+    "apk": "node scripts/apk.mjs",
+    "test:cloud": "node scripts/test-cloud.mjs",
+    "vendor": "node -e \"require('fs').copyFileSync('node_modules/@supabase/supabase-js/dist/umd/supabase.js','src/vendor/supabase.js')\""
   },
   "dependencies": {
-    "@capacitor/core": "^6.0.0",
     "@capacitor/android": "^6.0.0",
-    "@capacitor/ios": "^6.0.0"
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
+    "@supabase/supabase-js": "^2.119.2"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.0.0"

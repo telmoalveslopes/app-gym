@@ -9,7 +9,6 @@ t[20]=(a>70||(!m&&a>50))?1200:1000;t[21]=(!m&&a<=50)?18:8;t[22]=a>30?(m?420:320)
 t[29]=k*.01/9;t[30]=m?1.6:1.1;t[31]=a>50?(m?14:11):(m?17:12);t[32]=w*35;t[33]=20;t[34]=400;t[35]=5;t[36]=m?550:425;t[37]=.9;t[38]=m?2.3:1.8;t[39]=150;
 [10,20,39,30,15,25,15,4,26].forEach((v,i)=>t[40+i]=v*w/1000);t[51]=k*.1/4;t[67]=30;t[69]=m?4000:3000;t[70]=a>50?(m?30:20):(m?35:25);t[71]=45;return t}
 const target=i=>TG()[i],pct=(t,i)=>target(i)?t[i]/target(i)*100:0,r1=v=>v>=100?Math.round(v):Math.round(v*10)/10;
-function saveN(d){save();if(DBC&&LOADED)DBC.doc('n_'+d).set({j:JSON.stringify(S.nlog[d]||{})}).catch(()=>{SY='er';drawSY()})}
 function openFD(m){FS={m,q:'',c:'',sel:null,g:100,mk:null};drawFD()}
 function closeFD(){FS=null;$('#fd').style.display='none'}
 function drawFD(){const p=$('#fd'),s=FS;p.style.display='block';
