@@ -34,10 +34,6 @@ const yday=m=>{const q=new Date(ND+'T12:00');q.setDate(q.getDate()-1);return((S.
 function wkK(d){const ds=[6,5,4,3,2,1,0].map(i=>{const q=new Date(d+'T12:00');q.setDate(q.getDate()-i);return day(q)}),g=goal()[0]||1,v=ds.map(z=>Math.round(tot(z)[0])),mx=Math.max(g,...v),on=v.filter(y=>y>0),avg=on.length?Math.round(on.reduce((a,b)=>a+b,0)/on.length):0;
 return `<div class="card"><div style="display:flex;align-items:baseline"><h2 style="flex:1;margin:0">${x('wkk')}</h2><span class="mut">Ø ${avg} kcal</span></div><div style="position:relative;margin-top:10px"><div style="position:absolute;left:0;right:0;bottom:${Math.round(g/mx*80)+16}px;border-top:1px dashed var(--mut);opacity:.6"></div><div class="bars">${ds.map((z,i)=>`<div><b style="height:${Math.round(v[i]/mx*80)}px;${v[i]>g*1.05?'background:#e5534b':''}"></b>${DN()[dow(z)][0]}</div>`).join('')}</div></div></div>`}
 
-// --- resumo de nutrição no ecrã Hoje ---
-function hojeN(d){const t=tot(d),G=goal(),k=Math.round(t[0]),left=G[0]-k,fl=L=='en'?'F':'G';
-return `<div class="sh"><span>${x('nutri')}</span><button class="lnk" onclick="ND='${d}';A.tab('nutri')">${x('stk')} ›</button></div><div class="card" style="display:flex;align-items:center;gap:14px;cursor:pointer" onclick="ND='${d}';A.tab('nutri')">${ring(G[0]?k/G[0]*100:0,74,8,k)}<div class="grow"><b>${Math.abs(left)} ${left>=0?x('kleft'):x('kover')}</b><div class="mut">P ${Math.round(t[1])}/${G[1]} g · C ${Math.round(t[2])}/${G[2]} g · ${fl} ${Math.round(t[3])}/${G[3]} g</div><div class="mut">💧 ${wml(d)}/${wgoal()} ml</div></div></div>`}
-
 // --- cópia de segurança (exportar / importar JSON) ---
 function bkExp(){const name='appgym-'+day()+'.json',data=JSON.stringify({app:'appgym',v:1,at:new Date().toISOString(),S});let file;try{file=new File([data],name,{type:'application/json'})}catch(e){file=new Blob([data],{type:'application/json'})}
 if(navigator.canShare&&file instanceof File&&navigator.canShare({files:[file]})){navigator.share({files:[file],title:name}).catch(()=>{});return}

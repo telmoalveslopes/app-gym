@@ -1,5 +1,5 @@
 const A={
-tab(t){tab=t;R()},go(d){CD=d;CM=0;tab='perfil';R()},htf(){HTF=!HTF;R()},nd(n){const q=new Date(ND+'T12:00');q.setDate(q.getDate()+n);ND=day(q);R()},delF(m,i){S.nlog[ND][m].splice(i,1);saveN(ND);R()},
+tab(t){tab=t;R();try{scrollTo(0,0)}catch(e){}},go(d){CD=d;CM=0;tab='perfil';R()},htf(){HTF=!HTF;R()},nd(n){const q=new Date(ND+'T12:00');q.setDate(q.getDate()+n);ND=day(q);R()},delF(m,i){S.nlog[ND][m].splice(i,1);saveN(ND);R()},
 mood(n){S.mood[SD]=n;save();R()},
 sd(d){SD=d;HT.date=d;R()},
 wd(id){WD=id;WE=0;WM=0;WDEL=0;WMN=0;tab='treino';R();try{scrollTo(0,0)}catch(e){}},wmn(){WMN=!WMN;R()},nr(){NR=!NR;R()},wdc(){WD=null;WE=0;WDEL=0;R()},wm(){WM=!WM;R()},we(){WE=!WE;R()},
@@ -12,9 +12,9 @@ hf(k,v){if(k=='t'){v=Math.max(1,Math.min(7,Math.round(+v)||1));HF.t=v;HF.days=HF
 hd(i){const a=HF.days,j=a.indexOf(i);if(j>=0)a.splice(j,1);else if(a.length<(+HF.t||1))a.push(i);R()},
 addH(){const n=HF.name.trim();if(!n)return;const o={name:n,emoji:HF.emoji.trim()||'✅',f:HF.f,days:HF.f=='w'?HF.days.slice():[],t:HF.f=='w'?(+HF.t||1):0};if(HF.id)Object.assign(S.habits.find(y=>y.id==HF.id),o);else S.habits.push({id:Date.now(),done:{},...o});HF={f:'d',days:[],t:3,name:'',emoji:''};save();R()},
 eh(id){const h=S.habits.find(y=>y.id==id);HF={id,f:h.f==='w'?'w':'d',days:(h.days||[]).slice(),t:h.t||3,name:h.name,emoji:h.emoji};R();setTimeout(()=>{const e=document.getElementById('hform');if(e&&e.scrollIntoView)e.scrollIntoView({behavior:'smooth'})},50)},
-ch(){HF={f:'d',days:[],t:3,name:'',emoji:''};R()},
-delH(id){const h=S.habits.find(y=>y.id==id);if(!h||!confirm(x('dlq').replace('{n}',h.name)))return;S.habits=S.habits.filter(y=>y.id!=id);save();R()},
-addT(){if(!HT.name.trim())return;S.tasks.push({id:Date.now(),name:HT.name.trim(),date:HT.date||day(),done:0});HT={name:'',date:day()};HTF=0;save();R()},
+ch(){HF={f:'d',days:[],t:3,name:'',emoji:''};R()},nh(){HF={f:'d',days:[],t:3,name:'',emoji:'',open:1};R();setTimeout(()=>{const e=document.getElementById('hform');if(e&&e.scrollIntoView)e.scrollIntoView({behavior:'smooth',block:'center'})},50)},
+delH(id){const h=S.habits.find(y=>y.id==id);if(!h||!confirm(x('dlq').replace('{n}',h.name)))return;S.habits=S.habits.filter(y=>y.id!=id);if(HF.id==id)HF={f:'d',days:[],t:3,name:'',emoji:''};save();R()},
+addT(d){if(d)HT.date=d;if(!HT.name.trim())return;S.tasks.push({id:Date.now(),name:HT.name.trim(),date:HT.date||day(),done:0});HT={name:'',date:day()};HTF=0;save();R()},
 tt(id){const k=S.tasks.find(y=>y.id==id);k.done=k.done?0:1;save();R()},
 dt(id){const k=S.tasks.find(y=>y.id==id);if(!k||!confirm(x('dlq').replace('{n}',k.name)))return;S.tasks=S.tasks.filter(y=>y.id!=id);save();R()},
 per(p){P=p;R()},met(m){M=m;R()},
@@ -42,4 +42,4 @@ saveR(){if(!RB.name.trim()||!RB.ex.length)return;const o={name:RB.name.trim(),ex
 sar(){const w=S.workouts.find(y=>y.id==WD);if(!w)return;S.routines.push({id:Date.now(),name:w.name,ex:w.ex.map((e,i,a)=>[e.name,e.sets.length,S.exRest[e.name]??S.set.rest,e.lk&&i<a.length-1?1:0])});WMN=0;save();alert(x('sard'));R()},
 cpM(m){const q=new Date(ND+'T12:00');q.setDate(q.getDate()-1);const y=(S.nlog[day(q)]||{})[m]||[];if(!y.length)return;const a=S.nlog[ND]=S.nlog[ND]||{};a[m]=(a[m]||[]).concat(y.map(e=>({...e})));saveN(ND);R()},
 edF(m,i){const e=S.nlog[ND][m][i],v=prompt(x('gr'),e.g);if(v==null)return;const g=+String(v).replace(',','.');if(g>0){e.g=Math.round(g*10)/10;saveN(ND);R()}},
-delR(id){const r=S.routines.find(y=>y.id==id);if(!r||!confirm(x('dlq').replace('{n}',r.name)))return;S.routines=S.routines.filter(y=>y.id!=id);save();R()}};
+delR(id){const r=S.routines.find(y=>y.id==id);if(!r||!confirm(x('dlq').replace('{n}',r.name)))return;S.routines=S.routines.filter(y=>y.id!=id);if(RB&&RB.id==id)RB=null;save();R()}};
