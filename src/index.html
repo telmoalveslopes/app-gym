@@ -36,5 +36,7 @@
 <script src="js/17-profile.js"></script>
 <script src="js/18-extras.js"></script>
 <script src="js/99-main.js"></script>
-<script>if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{})</script>
+<script>if('serviceWorker' in navigator&&location.protocol.startsWith('http')){const sw=navigator.serviceWorker,had=!!sw.controller;let rl=0;
+sw.register('sw.js').then(r=>document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible')r.update().catch(()=>{})})).catch(()=>{});
+sw.addEventListener('controllerchange',()=>{if(had&&!rl){rl=1;location.reload()}})}</script>
 </body></html>
