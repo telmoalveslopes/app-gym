@@ -1,5 +1,8 @@
 # App Gym — regras para o Claude
 
+Ao começar uma conversa nova, ler `docs/CONTINUAR.md` (ponto de situação e próximo passo) e `docs/ESTADO.md` (estado completo).
+No fim de cada sessão de trabalho, atualizar o `docs/CONTINUAR.md` com o que ficou feito e o que falta.
+
 ## Publicação automática (pedido do Telmo, 26-11-2026)
 - O ramo `main` do repositório `telmoalveslopes/app-gym` publica sozinho no GitHub Pages:
   https://telmoalveslopes.github.io/app-gym/ (workflow `.github/workflows/pages.yml`, publica a pasta `src/`).

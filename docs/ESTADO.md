@@ -1,6 +1,7 @@
 # App Gym: estado do projeto
 
 > Documento de referência, atualizado a cada alteração. Última atualização: **26-11-2026**.
+> Para retomar o trabalho noutra conversa, ler primeiro **[CONTINUAR.md](CONTINUAR.md)**.
 
 ## 1. O que é
 App de telemóvel que junta **Hábitos** (estilo Upwell), **Treino** (estilo Hevy) e **Nutrição** (estilo Kiwi/FatSecret).
