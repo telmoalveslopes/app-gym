@@ -17,3 +17,8 @@ const prev=n=>{for(let i=S.workouts.length-1;i>=0;i--){const e=S.workouts[i].ex.
 const vol=w=>w.ex.reduce((a,e)=>{const t=e.t||exInfo(e.name).t;return a+(t=='wr'||t=='wb'?e.sets.reduce((b,s)=>b+(s.ty=='w'?0:(+s.kg||0)*(+s.reps||0)),0):0)},0);
 const blank=()=>({reps:'',kg:'',time:'',dist:'',ok:0,ty:'n'});
 const newEx=(n,c,r)=>({name:n,t:exInfo(n).t,rest:r??S.exRest[n]??S.set.rest,sets:Array.from({length:c||1},()=>blank())});
+// supersets: e.lk = ligado ao exercício seguinte. ssStart = início do grupo; ssL = letra do grupo (A, B…) ou ''
+const ssStart=(a,i)=>{while(i>0&&a[i-1].lk)i--;return i};
+const ssL=a=>{const o=[];let g=-1;a.forEach((e,i)=>{const inG=e.lk||(i>0&&a[i-1].lk);if(inG&&!(i>0&&a[i-1].lk))g++;o.push(inG?String.fromCharCode(65+g):'')});return o};
+const ssTag=l=>l?`<span class="pill" style="background:var(--ac);color:var(--on)">🔗 ${x('ssup')} ${l}</span>`:'';
+const lastNote=n=>{for(let i=S.workouts.length-1;i>=0;i--){const e=S.workouts[i].ex.find(y=>y.name===n&&y.note);if(e)return e.note}return''};
