@@ -1,0 +1,26 @@
+{
+  "name": "app-gym",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hábitos + Treino + Nutrição numa só app",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/serve.mjs 5173",
+    "check": "node scripts/check.mjs",
+    "build": "node scripts/build.mjs",
+    "cap:add:android": "npx cap add android",
+    "cap:add:ios": "npx cap add ios",
+    "cap:sync": "npm run build && npx cap sync",
+    "android": "npm run cap:sync && npx cap open android",
+    "ios": "npm run cap:sync && npx cap open ios",
+    "apk": "node scripts/apk.mjs"
+  },
+  "dependencies": {
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/ios": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0"
+  }
+}

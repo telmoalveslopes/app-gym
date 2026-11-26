@@ -1,0 +1,18 @@
+const back=n=>{const d=new Date();d.setDate(d.getDate()-n);return day(d)};
+const dow=d=>(new Date(d+'T12:00').getDay()+6)%7;
+const wdays=(d=day())=>{const o=Math.round((new Date(day()+'T12:00')-new Date(d+'T12:00'))/864e5)+dow(d);return[0,1,2,3,4,5,6].map(i=>back(o-i))};
+const mdaysO=(o=0)=>{const n=new Date(),y=n.getFullYear(),m=n.getMonth()+o,c=new Date(y,m+1,0).getDate();return Array.from({length:c},(_,i)=>day(new Date(y,m,i+1)))},mdays=()=>mdaysO(0);
+const fd=d=>d.slice(8)+'/'+d.slice(5,7);
+const hdone=(h,d)=>h.auto?!!(h.done[d]||S.workouts.some(w=>w.date===d)):!!h.done[d];
+const streak=h=>{let n=0,i=hdone(h,back(0))?0:1;while(i<400&&hdone(h,back(i))){n++;i++}return n};
+const wk=(h,d)=>wdays(d).filter(y=>y<=d&&hdone(h,y)).length;
+const due=(h,d)=>h.f!=='w'||(h.days&&h.days.length?h.days.includes(dow(d)):(hdone(h,d)||wk(h,d)<h.t));
+const exInfo=n=>S.custom.find(c=>c.n===n)||EXM.get(n)||{n,g:'Cardio e corpo inteiro',t:'wr'};
+const mmss=s=>Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+const parseT=v=>{v=String(v).trim();if(!v)return'';if(v.includes(':')){const a=v.split(':').map(Number);return a.length==3?a[0]*3600+a[1]*60+a[2]:a[0]*60+(a[1]||0)}return+v||''};
+const pfmt=(ty,s)=>(s.ty&&s.ty!='n'?s.ty.toUpperCase()+' ':'')+FT[ty].map(k=>k=='reps'?s.reps||0:k=='time'?mmss(s.time||0):k=='dist'?(s.dist||0)+(ty=='dd'?'km':'m'):(ty=='wb'?'+':ty=='ab'?'−':'')+(s.kg||0)+'kg').join('×');
+const lab=(ty,k)=>k=='reps'?'Reps':k=='time'?x('tm'):k=='dist'?(ty=='dd'?'Km':'m'):ty=='wb'?'+Kg':ty=='ab'?'−Kg':'Kg';
+const prev=n=>{for(let i=S.workouts.length-1;i>=0;i--){const e=S.workouts[i].ex.find(y=>y.name===n);if(e)return e.sets}return[]};
+const vol=w=>w.ex.reduce((a,e)=>{const t=e.t||exInfo(e.name).t;return a+(t=='wr'||t=='wb'?e.sets.reduce((b,s)=>b+(s.ty=='w'?0:(+s.kg||0)*(+s.reps||0)),0):0)},0);
+const blank=()=>({reps:'',kg:'',time:'',dist:'',ok:0,ty:'n'});
+const newEx=(n,c,r)=>({name:n,t:exInfo(n).t,rest:r??S.exRest[n]??S.set.rest,sets:Array.from({length:c||1},()=>blank())});

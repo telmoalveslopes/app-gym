@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="pt"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#09090b">
+<title>App Gym</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head><body>
+<main id="m"></main>
+<div id="rt"><span>⏱</span><b id="rtt"></b><button onclick="rtP()" id="rtp">⏸</button><button onclick="rtA(-15)">−15</button><button onclick="rtA(15)">+15</button><button onclick="RT=null;drawRT()">✕</button></div>
+<button id="gear" onclick="openST()">⚙️</button><nav id="n"></nav>
+<div id="pk"></div><div id="st"></div><div id="fd"></div><div id="gl"></div><div id="bc"></div>
+<script src="js/00-core.js"></script>
+<script src="js/01-i18n.js"></script>
+<script src="js/02-theme.js"></script>
+<script src="js/03-exercises.js"></script>
+<script src="js/04-state-storage.js"></script>
+<script src="js/05-helpers.js"></script>
+<script src="js/06-actions.js"></script>
+<script src="js/07-timer-picker.js"></script>
+<script src="js/08-views-today-habits.js"></script>
+<script src="js/09-views-workout.js"></script>
+<script src="js/10-settings.js"></script>
+<script src="js/11-icons-ui.js"></script>
+<script src="js/12-nutrients-data.js"></script>
+<script src="js/13-foods-data.js"></script>
+<script src="js/14-nutrition-logic.js"></script>
+<script src="js/15-nutrition-view.js"></script>
+<script src="js/16-barcode.js"></script>
+<script src="js/17-profile.js"></script>
+<script src="js/99-main.js"></script>
+<script>if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{})</script>
+</body></html>
