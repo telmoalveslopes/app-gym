@@ -1,9 +1,9 @@
-function rest(s){RT={left:s,p:0};drawRT()}
-function rtP(){if(RT){RT.p=!RT.p;drawRT()}}
-function rtA(d){if(RT){RT.left=Math.max(1,RT.left+d);drawRT()}}
+function rest(s){RT={left:s,end:Date.now()+s*1e3,p:0};try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume()}catch(e){}drawRT()}
+function rtP(){if(RT){RT.p=!RT.p;if(!RT.p)RT.end=Date.now()+RT.left*1e3;drawRT()}}
+function rtA(d){if(RT){RT.left=Math.max(1,RT.left+d);RT.end=Date.now()+RT.left*1e3;drawRT()}}
 function drawRT(){const r=$('#rt');r.style.display=RT?'flex':'none';if(RT){$('#rtt').textContent=mmss(RT.left);$('#rtp').textContent=RT.p?'▶':'⏸'}}
-function beep(){try{navigator.vibrate&&navigator.vibrate([200,100,200]);const c=new AudioContext(),o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.4)}catch(e){}}
-setInterval(()=>{if(RT&&!RT.p){RT.left--;if(RT.left<=0){RT=null;beep()}drawRT()}},1000);
+let AC=null;function beep(){try{navigator.vibrate&&navigator.vibrate([200,100,200]);const c=AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(c.state=='suspended')c.resume();const o=c.createOscillator();o.connect(c.destination);o.frequency.value=880;o.start();o.stop(c.currentTime+.4)}catch(e){}}
+const tickRT=()=>{if(RT&&!RT.p){RT.left=Math.max(0,Math.ceil((RT.end-Date.now())/1e3));if(RT.left<=0){RT=null;beep()}drawRT()}};setInterval(tickRT,500);document.addEventListener('visibilitychange',tickRT);
 function openPK(cb){PK={cb,sel:[],q:'',g:'',mk:null};drawPK()}
 function closePK(){PK=null;$('#pk').style.display='none'}
 function donePK(){const c=PK.cb,l=PK.sel;closePK();c(l)}
