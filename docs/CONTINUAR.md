@@ -16,7 +16,9 @@
 | Estado completo e histórico | `docs/ESTADO.md` |
 | Regras para o Claude | `CLAUDE.md` |
 | Base de dados (estrutura) | `supabase/schema.sql` |
-| Ligação à base de dados | `src/config.js` (ainda vazio) |
+| Base de dados (Supabase) | projeto `app-gym`, região Frankfurt, plano grátis: https://supabase.com/dashboard/project/zcqfceygctyqsjexangc (entrar com o GitHub) |
+| Ligação à base de dados | `src/config.js` (URL e chave pública já postos) |
+| Teste de segurança no servidor | `supabase/test-security.sql` (correr no SQL Editor; 34 linhas "ok") |
 | APK Android de teste | `AppGym-debug.apk` (gera-se com `npm run apk`; não vai para o GitHub) |
 
 ## Feito até hoje
@@ -25,17 +27,13 @@
 - Proteção dos dados no aparelho: cópia diária, recuperação de dados estragados, armazenamento persistente.
 - Código da base de dados na nuvem com contas, pronto e testado com uma base de dados simulada (`npm run test:cloud`).
 - 27-11: treino (kg antes das reps, séries só válidas com peso e reps, linha verde), unidades kg/lb etc., "Hoje" nos hábitos, refeições com nomes à escolha e personalizadas, novo ecrã de adicionar alimento (recentes primeiro), 564 exercícios.
-- 27-11: **personal trainer** (estatutos, ligação aluno→PT por código, painel com o progresso dos alunos, plano com metas/rotinas/hábitos/refeições/pesagens/nota, admin). Testado só com a base de dados simulada. Ver `docs/ESTADO.md` secção 2.1.
+- 27-11: **personal trainer** (estatutos, ligação aluno→PT por código, painel com o progresso dos alunos, plano com metas/rotinas/hábitos/refeições/pesagens/nota, admin). Ver `docs/ESTADO.md` secção 2.1.
+- 27-11: **base de dados Supabase ligada** (projeto criado, `schema.sql` corrido, Site URL configurado, chave pública em `src/config.js`). As 34 regras de segurança testadas no servidor real com `supabase/test-security.sql`: todas ok, e o teste não deixa nada gravado.
 
 ## PRÓXIMO PASSO (pendente do Telmo)
-**Ligar a base de dados Supabase.** Sem isto, os dados ficam só no iPhone.
-1. Criar conta grátis em https://supabase.com e um projeto novo (região Europe).
-2. SQL Editor → New query → colar `supabase/schema.sql` → Run.
-3. Authentication → URL Configuration → *Site URL* = `https://telmoalveslopes.github.io/app-gym/`
-4. Project Settings → API → dar ao Claude o **Project URL** e a chave **anon / publishable** (NUNCA a `service_role`).
-5. O Claude põe os valores em `src/config.js`, testa com a base de dados real e publica.
-6. No iPhone: ⚙️ (Perfil) → Conta e nuvem → Criar conta → confirmar email → Entrar.
-7. Tornar-te admin com o SQL de `docs/ESTADO.md` secção 3, passo 6. Depois o Claude testa o personal trainer com a base de dados real (as regras de segurança novas só foram testadas na simulada).
+1. No iPhone: ⚙️ (Perfil) → Conta e nuvem → **Criar conta** → confirmar o email → **Entrar**. Os dados do telemóvel sobem para a conta.
+2. Dizer ao Claude o email usado, para ele correr o SQL que te torna admin (`docs/ESTADO.md` secção 3, passo 6).
+3. Depois: confirmar no iPhone que aparece "Guardado na nuvem" e experimentar o personal trainer (Definições → Personal trainer).
 
 ## Ideias para depois (não pedidas ainda)
 - Lembretes/notificações de hábitos e treino.
