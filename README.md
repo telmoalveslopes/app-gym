@@ -64,6 +64,7 @@ src/
     19-online-foods    pesquisa online (Open Food Facts, USDA)
     20-cloud           contas e sincronização com a base de dados (Supabase)
     21-food-add        adicionar alimento (recentes, dias anteriores, refeições guardadas), lista de refeições editável
+    22-coach           personal trainer: painel do PT, ligação do aluno, plano, admin
     99-main            render R() e arranque
   config.js           ligação à nuvem (URL + chave pública)
   vendor/supabase.js  biblioteca Supabase (offline)

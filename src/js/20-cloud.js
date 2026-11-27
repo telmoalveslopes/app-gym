@@ -16,7 +16,7 @@ function adopt(d){NOQ=1;try{S=d;W=S.W||null;fix();writeLocal()}finally{NOQ=0}R()
 // junta dois estados (b = o mais recente ganha quando há o mesmo registo nos dois)
 function mergeS(a,b){const o={...a,...b},byId=(x,y,k)=>{const m=new Map();(x||[]).forEach(e=>m.set(e[k],e));(y||[]).forEach(e=>m.set(e[k],e));return[...m.values()]};
 ['habits','workouts','routines','tasks'].forEach(k=>o[k]=byId(a[k],b[k],'id'));['cfoods','custom'].forEach(k=>o[k]=byId(a[k],b[k],'n'));o.cmeals=byId(a.cmeals,b.cmeals,'id');o.meals=byId(a.meals,b.meals,'k');
-['nlog','mood','wlog','barcodes','exRest'].forEach(k=>o[k]={...(a[k]||{}),...(b[k]||{})});
+['nlog','mood','wlog','barcodes','exRest','coach'].forEach(k=>o[k]={...(a[k]||{}),...(b[k]||{})});
 o.habits.forEach(h=>{const ha=(a.habits||[]).find(y=>y.id===h.id);if(ha)h.done={...(ha.done||{}),...(h.done||{})}});
 o.workouts.sort((p,q)=>p.id-q.id);o.W=b.W||a.W||null;o.set={...(a.set||{}),...(b.set||{})};o.since=[a.since,b.since].filter(Boolean).sort()[0];o._at=Math.max(a._at||0,b._at||0);return o}
 const isEmpty=s=>!s.workouts.length&&!Object.keys(s.nlog||{}).length&&!(s.tasks||[]).length&&!Object.keys(s.mood||{}).length&&!s.habits.some(h=>Object.keys(h.done||{}).length);
@@ -48,7 +48,7 @@ else if(!CMETA.dirty||(!CMETA.uid&&isEmpty(S))){adopt(row.data);CMETA={uid:CU.id
 else{ // mudou no aparelho e na nuvem: junta tudo (o mais recente ganha nos registos repetidos), guarda cópia do que havia
 LBK.snap('merge');const cloudNewer=Date.parse(row.updated_at)>(S._at||0);const m=cloudNewer?mergeS(S,row.data):mergeS(row.data,S);
 adopt(m);CMETA={uid:CU.id,syncedAt:row.updated_at,dirty:1};cmSave();push=1}}
-catch(e){setSY(navigator.onLine===false?'off':'er')}finally{CBUSY=0}if(push)cloudPush()}
+catch(e){setSY(navigator.onLine===false?'off':'er')}finally{CBUSY=0}if(push)await cloudPush();if(CU&&typeof coachSync=='function')coachSync()}
 // ---- conta ----
 const errMsg=e=>{const m=String(e&&e.message||e);return /invalid login/i.test(m)?x('e_cred'):/not confirmed/i.test(m)?x('e_conf'):x('e_gen')+m};
 const aval=()=>({em:($('#aem')||{}).value||'',pw:($('#apw')||{}).value||''});
@@ -56,7 +56,7 @@ async function accIn(){const {em,pw}=aval();AMSG='';const {error}=await SB.auth.
 async function accUp(){const {em,pw}=aval();AMSG='';const {data,error}=await SB.auth.signUp({email:em.trim(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});AMSG=error?errMsg(error):data.session?'':x('m_conf');drawST()}
 async function accReset(){const {em}=aval();if(!em.trim()){AMSG=x('eml')+'?';return drawST()}const {error}=await SB.auth.resetPasswordForEmail(em.trim(),{redirectTo:location.origin+location.pathname});AMSG=error?errMsg(error):x('m_reset');drawST()}
 async function accNewPw(){const pw=($('#anp')||{}).value||'';const {error}=await SB.auth.updateUser({password:pw});AMSG=error?errMsg(error):x('pwok');if(!error)RECOV=0;drawST()}
-async function accOut(){await cloudPush();await SB.auth.signOut();CBKS=null;drawST()}
+async function accOut(){await cloudPush();await SB.auth.signOut();CBKS=null;if(typeof PR!='undefined'){PR=null;CO=null;ADL=null}drawST()}
 async function cbkList(){const {data,error}=await SB.from('app_backups').select('day,created_at').eq('user_id',CU.id).order('day',{ascending:false}).limit(30);CBKS=error?[]:data;drawST()}
 async function cbkRestore(d){if(!confirm(x('rstq').replace('{d}',d)))return;const {data,error}=await SB.from('app_backups').select('data').eq('user_id',CU.id).eq('day',d).single();if(error||!validS(data.data))return alert(x('bkn'));LBK.snap('restore');adopt(data.data);save()}
 function lbkRestore(k){const j=LBK.get(k);if(!j||!confirm(x('rstq').replace('{d}',k.slice(LBK_P.length,LBK_P.length+10))))return;LBK.snap('restore');adopt(j);save()}

@@ -21,7 +21,7 @@ ${CLOUD_ON&&!CU?`<div class="hero" style="cursor:pointer;display:flex;align-item
 <button onclick="A.tab('habitos')">${ring(hs.length?dh/hs.length*100:0,78,8,`${dh}/${hs.length}`,'var(--c-hab)')}<span>${x('habitos')}</span></button>
 <button onclick="ND='${d}';A.tab('nutri')">${ring(G[0]?kc/G[0]*100:0,78,8,kc,'var(--c-nut)')}<span>${x('of')} ${G[0]} kcal</span></button>
 <button onclick="A.tab('treino')">${ring(tr.length?100:W&&isT?50:0,78,8,tr.length?'✓':W&&isT?'…':'–','var(--c-tr)')}<span>${x('treino')}</span></button></div></div>
-<div class="sh"><span>${x('habitos')}<span class="cnt">${dh}/${hs.length}</span></span><button class="lnk" onclick="A.tab('habitos')">${x('mng')} ›</button></div>
+${coachToday()}<div class="sh"><span>${x('habitos')}<span class="cnt">${dh}/${hs.length}</span></span><button class="lnk" onclick="A.tab('habitos')">${x('mng')} ›</button></div>
 ${hs.map(h=>hrow(h,d,fut)).join('')||`<div class="card empty"><span class="em">🌱</span>${x('none')}</div>`}
 <div class="sh"><span>${x('treino')}</span><button class="lnk" onclick="A.tab('treino')">${x('stk')} ›</button></div>
 <div class="card">${tr.map(w=>`<div class="row" style="cursor:pointer" onclick="A.wd(${w.id})"><span style="font-size:22px">✅</span><div class="grow"><b>${esc(w.name)}</b><div class="mut">${w.dur} min · ${fvol(vol(w))}</div></div><span class="mut">›</span></div>`).join('')}
@@ -40,6 +40,6 @@ ${HF.f=='w'?`<div style="display:flex;align-items:center;gap:8px;margin-top:10px
 <button class="btn ar full" onclick="A.addH()">${ed?x('sv'):x('add')}</button><button class="btn alt full" onclick="A.ch()">${x('cn')}</button>${eh&&!eh.auto?`<button class="btn red full" onclick="A.delH(${ed})">${x('dlh')}</button>`:''}</div>`;
 return `<div class="hd"><div class="grow"><h1>${x('habitos')}</h1><div class="mut">${pc}% ${x('wpct')}</div></div>${open?'':`<button class="ibtn ar" onclick="A.nh()">＋</button>`}</div>
 ${open?form:''}
-${S.habits.map(h=>{const s=h.f!=='w'?streak(h):0;return `<div class="card"><div style="display:flex;align-items:center;gap:12px"><span class="em" style="font-size:26px">${esc(h.emoji)}</span><div class="grow"><b style="font-size:17px">${esc(h.name)}</b><div class="mut">${sched(h)}${h.auto?' · '+x('auto'):''}</div></div>${s?`<span class="badge">🔥 ${s}</span>`:''}<button class="ibtn s" onclick="A.eh(${h.id})">✏️</button></div>
+${S.habits.map(h=>{const s=h.f!=='w'?streak(h):0;return `<div class="card"><div style="display:flex;align-items:center;gap:12px"><span class="em" style="font-size:26px">${esc(h.emoji)}</span><div class="grow"><b style="font-size:17px">${esc(h.name)}</b><div class="mut">${sched(h)}${h.auto?' · '+x('auto'):''}${h.ch?' · 🧑‍🏫 PT':''}</div></div>${s?`<span class="badge">🔥 ${s}</span>`:''}<button class="ibtn s" onclick="A.eh(${h.id})">✏️</button></div>
 <div class="dots7">${[6,5,4,3,2,1,0].map(i=>{const d=back(i);return `<button class="${hdone(h,d)?'on':''} ${i==0?'td':''}" onclick="A.tog(${h.id},'${d}')"><span>${i==0?x('hoje'):DN()[dow(d)].slice(0,3)}</span><i></i></button>`}).join('')}</div></div>`}).join('')||`<div class="card empty"><span class="em">🌱</span>${x('hnone')}</div>`}
 ${S.habits.length?`<div class="mut" style="text-align:center;margin-top:6px">${x('dsb')}</div>`:''}`}

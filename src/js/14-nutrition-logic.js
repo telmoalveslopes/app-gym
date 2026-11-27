@@ -1,7 +1,9 @@
 const fInfo=n=>S.cfoods.find(f=>f.n===n)||FM.get(n);
 function tot(d){const t=Array(NU.length).fill(0),lg=S.nlog[d]||{};Object.keys(lg).forEach(m=>Array.isArray(lg[m])&&lg[m].forEach(e=>{const f=fInfo(e.n);if(f)f.v.forEach((v,i)=>t[i]+=v*e.g/100)}));return t}
 function calc(){const s=S.set,m=s.sex!='f',w=+s.w||70,h=+s.h||170,a=+s.age||30,bmr=10*w+6.25*h-5*a+(m?5:-161),tdee=bmr*(+s.act||1.2),f={cut:.8,mcut:.9,maint:1,lean:1.1,bulk:1.15}[s.goal]||1,k=Math.round(tdee*f/10)*10,pk={cut:2.2,mcut:2,maint:1.8,lean:1.8,bulk:1.8}[s.goal]||1.8,P=Math.round(pk*w),F=Math.round(Math.max(k*.25/9,.7*w)),C=Math.max(0,Math.round((k-4*P-9*F)/4));return{bmr:Math.round(bmr),tdee:Math.round(tdee),k,P,C,F,Fi:Math.max(25,Math.round(14*k/1000))}}
-const goal=()=>{const s=S.set;if(s.mode=='custom')return[+s.gk||0,+s.gp||0,+s.gc||0,+s.gf||0,+s.gfi||0];const c=calc();return[c.k,c.P,c.C,c.F,c.Fi]};
+// metas do PT (se houver) substituem só os valores que ele preencheu
+const goal=()=>{const g=goal0(),cg=typeof coachG=='function'&&coachG();return cg?['gk','gp','gc','gf','gfi'].map((k,i)=>+cg[k]>0?+cg[k]:g[i]):g};
+const goal0=()=>{const s=S.set;if(s.mode=='custom')return[+s.gk||0,+s.gp||0,+s.gc||0,+s.gf||0,+s.gfi||0];const c=calc();return[c.k,c.P,c.C,c.F,c.Fi]};
 function TG(){const s=S.set,m=s.sex!='f',a=+s.age||30,w=+s.w||70,g=goal(),k=g[0],t=NU.map(()=>0);
 t[0]=g[0];t[1]=g[1];t[2]=g[2];t[3]=g[3];t[4]=g[4];t[5]=50;t[6]=k*.1/9;t[7]=300;t[8]=2300;
 t[9]=m?900:700;t[10]=m?90:75;t[11]=a>70?20:15;t[12]=15;t[13]=m?120:90;t[14]=m?1.2:1.1;t[15]=m?1.3:1.1;t[16]=m?16:14;t[17]=a>50?(m?1.7:1.5):1.3;t[18]=400;t[19]=2.4;

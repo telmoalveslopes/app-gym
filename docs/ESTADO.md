@@ -18,6 +18,7 @@ App de telemóvel que junta **Hábitos** (estilo Upwell), **Treino** (estilo Hev
 | 3. Nuvem (base de dados) | Supabase, tabela `app_data` (uma linha por pessoa) | Dados de cada conta, em qualquer telemóvel. |
 | 4. Cópia diária na nuvem | Supabase, tabela `app_backups` (uma por pessoa por dia) | Restaurar um dia anterior (Definições → Conta e nuvem). |
 | 5. Exportar | ficheiro `.json` (Definições → Cópia de segurança) | Cópia manual guardada onde quiseres. |
+| 6. Personal trainer | Supabase, tabelas `profiles`, `coach_links`, `coach_plans` | Estatuto de cada conta, ligações PT↔aluno e planos do PT (ver secção 2.1). |
 
 **Garantias (testadas a 26-11-2026, com base de dados simulada):**
 - Fechar e abrir a app no iPhone: os dados ficam no aparelho e a sessão mantém-se.
@@ -29,6 +30,13 @@ App de telemóvel que junta **Hábitos** (estilo Upwell), **Treino** (estilo Hev
 - Atualizações da app: `fix()` só acrescenta campos novos e nunca apaga dados. O formato tem versão (`S.v`, atual = 2).
 - A app pede ao sistema armazenamento persistente (`navigator.storage.persist`).
 
+### 2.1 Personal trainer e alunos (27-11-2026)
+- **Estatutos**: `user` (normal), `coach` (PT), `admin` (tu). Só o admin dá ou tira o estatuto de PT (painel do PT → Admin, ou SQL). Ninguém se promove a si próprio: a tabela `profiles` não aceita escrita direta da app.
+- **Ligação**: o PT dá o seu código (Definições → Personal trainer). É o **aluno** que o escreve e aceita; aluno ou PT podem terminar a ligação a qualquer momento, e o PT perde logo o acesso.
+- **O que o PT pode**: LER os dados dos seus alunos (treinos, nutrição, hábitos, peso) e escrever um plano numa tabela à parte (`coach_plans`): metas (kcal, macros, peso objetivo), rotinas, hábitos, plano alimentar, pesagens e uma nota. **Nunca** altera nem apaga os dados do aluno; as cópias na nuvem do aluno continuam só dele.
+- **Na app do aluno** (campo novo `S.coach`): as metas do PT substituem só os valores que ele preencheu; rotinas e hábitos do PT aparecem com 🧑‍🏫 PT; as pesagens do PT só entram em dias sem registo; a nota aparece no Hoje e o plano alimentar na Nutrição (botão ＋ para registar). Se a ligação terminar, as rotinas e hábitos ficam como normais e o histórico mantém-se.
+- **Testado a 27-11-2026 com a base de dados simulada** (que imita as regras do servidor): conta normal não se consegue promover; admin promove PT e não consegue despromover outro admin; PT sem ligação não lê nem escreve nada do aluno; aluno liga-se com o código; PT lê, envia plano e não consegue escrever nos dados do aluno; outra conta não vê nada e um código errado é recusado; ligar, desligar e voltar a ligar não duplica nada. **Falta testar com o Supabase real** quando estiver ligado.
+
 ## 3. Ligar a base de dados (falta fazer, uma vez)
 Enquanto não estiver ligada, a app funciona e guarda no aparelho, com cópia diária, mas não há nuvem.
 1. Criar conta grátis em https://supabase.com e um projeto novo (região: Europe, ex. Frankfurt). Guardar a password da base de dados num sítio seguro.
@@ -36,6 +44,11 @@ Enquanto não estiver ligada, a app funciona e guarda no aparelho, com cópia di
 3. **Authentication → URL Configuration**: em *Site URL* pôr `https://telmoalveslopes.github.io/app-gym/`.
 4. **Project Settings → API**: copiar o *Project URL* e a chave pública *anon / publishable* e dá-las ao Claude, que as põe em `src/config.js` e publica. **Nunca** dar a chave `service_role`.
 5. No iPhone: Definições (⚙️ no Perfil) → Conta e nuvem → **Criar conta** → confirmar o email → **Entrar**. Os dados que já estão no telemóvel sobem para a conta.
+6. Tornar-te admin (uma vez, depois do passo 5): no **SQL Editor** correr, com o teu email no lugar de O_TEU_EMAIL:
+   `insert into public.profiles (user_id, role) select id, 'admin' from auth.users where email = 'O_TEU_EMAIL' on conflict (user_id) do update set role = 'admin';`
+   A partir daí, em Definições → Personal trainer → Abrir, podes dar o estatuto de PT a outras contas. (O email não fica no código, que é público.)
+
+Se a base de dados já existir de antes, basta voltar a correr o `supabase/schema.sql` todo: pode ser corrido várias vezes sem estragar nada e acrescenta as tabelas do PT.
 
 Nota: no plano grátis, um projeto Supabase sem uso durante 7 dias fica em pausa. Os dados não se perdem: basta reativá-lo no site. Com uso diário isto não acontece.
 
@@ -45,6 +58,8 @@ Nota: no plano grátis, um projeto Supabase sem uso durante 7 dias fica em pausa
 - `src/vendor/supabase.js`: biblioteca Supabase incluída na app (funciona offline). Para atualizar: `npm run vendor`.
 - `src/js/04-state-storage.js`: estado `S`, `save()`, cópias diárias locais, recuperação.
 - `src/js/20-cloud.js`: contas, sincronização, junção de dados, cópias na nuvem.
+- `src/js/21-food-add.js`: adicionar alimento, refeições guardadas, lista de refeições editável.
+- `src/js/22-coach.js`: personal trainer (painel do PT, ligação do aluno, aplicação do plano, admin).
 - `supabase/schema.sql`: tabelas e regras de segurança.
 - `tests/fake-supabase.js` + `npm run test:cloud`: base de dados falsa para testar a sincronização sem tocar na real.
 - Restantes ficheiros: ver `README.md`.
@@ -58,6 +73,7 @@ Nota: no plano grátis, um projeto Supabase sem uso durante 7 dias fica em pausa
 6. Commit e push para `main` (publica sozinho).
 
 ## 6. Histórico de alterações
+- **27-11-2026**: Personal trainer: estatutos (utilizador, PT, admin), ligação aluno→PT por código, painel do PT com o progresso de cada aluno (treinos, calorias e proteína vs meta, hábitos, peso) e editor de plano (metas, peso objetivo, pesagens, rotinas, hábitos, plano alimentar, nota). Regras de segurança novas em `supabase/schema.sql`. Base de dados simulada (`tests/fake-supabase.js`) passou a imitar estas regras. Testes de sincronização repetidos.
 - **27-11-2026**: Treino: kg antes das reps; uma série só fica feita com peso (pode ser 0) e reps preenchidos (os campos em falta ficam a vermelho); a linha da série feita fica toda a verde; o menu do tipo de série mostra o atual (Normal por defeito). Unidades nas Definições (kg/lb, km/mi, cm/in, ml/fl oz), os dados continuam guardados em métrico. Hábitos: o dia de hoje aparece como "Hoje". Nutrição: refeições com nomes à escolha, ordem, acrescentar e esconder (padrão: Pequeno-almoço, Almoço, Lanche, Jantar; campo novo `S.meals`); refeições personalizadas (`S.cmeals`, também "💾 Guardar como refeição"); ecrã de adicionar alimento abre em Recentes (dias anteriores dessa refeição, alimentos recentes com a última quantidade, botão ＋ rápido), com separadores Refeições e Os meus, e a pesquisa passa a ser um passo à parte; novo ecrã de quantidade (gráfico de macros, botões −/+). Exercícios: de ~210 para 564. Testado com a base de dados simulada: conta nova, telemóvel novo, conta antiga sem os campos novos, conflito entre dois aparelhos.
 - **26-11-2026**: Base de dados na nuvem (Supabase) com contas, sincronização automática, cópias diárias no aparelho e na nuvem, recuperação de dados estragados, armazenamento persistente e testes com base de dados simulada. Corrigido o texto das metas, que mostrava "Nota".
 - **26-11-2026**: Novo visual (cor por área, abas reorganizadas, separadores no Perfil).

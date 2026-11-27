@@ -1,6 +1,6 @@
 # Continuar noutra conversa
 
-> Ler isto primeiro. Ponto de situação em **26-11-2026** (fim do dia).
+> Ler isto primeiro. Ponto de situação em **27-11-2026**.
 
 ## Como começar
 1. Abrir uma conversa nova com a pasta `C:\App_ginásio`.
@@ -24,6 +24,8 @@
 - Novo visual com uma cor por área.
 - Proteção dos dados no aparelho: cópia diária, recuperação de dados estragados, armazenamento persistente.
 - Código da base de dados na nuvem com contas, pronto e testado com uma base de dados simulada (`npm run test:cloud`).
+- 27-11: treino (kg antes das reps, séries só válidas com peso e reps, linha verde), unidades kg/lb etc., "Hoje" nos hábitos, refeições com nomes à escolha e personalizadas, novo ecrã de adicionar alimento (recentes primeiro), 564 exercícios.
+- 27-11: **personal trainer** (estatutos, ligação aluno→PT por código, painel com o progresso dos alunos, plano com metas/rotinas/hábitos/refeições/pesagens/nota, admin). Testado só com a base de dados simulada. Ver `docs/ESTADO.md` secção 2.1.
 
 ## PRÓXIMO PASSO (pendente do Telmo)
 **Ligar a base de dados Supabase.** Sem isto, os dados ficam só no iPhone.
@@ -33,6 +35,7 @@
 4. Project Settings → API → dar ao Claude o **Project URL** e a chave **anon / publishable** (NUNCA a `service_role`).
 5. O Claude põe os valores em `src/config.js`, testa com a base de dados real e publica.
 6. No iPhone: ⚙️ (Perfil) → Conta e nuvem → Criar conta → confirmar email → Entrar.
+7. Tornar-te admin com o SQL de `docs/ESTADO.md` secção 3, passo 6. Depois o Claude testa o personal trainer com a base de dados real (as regras de segurança novas só foram testadas na simulada).
 
 ## Ideias para depois (não pedidas ainda)
 - Lembretes/notificações de hábitos e treino.
