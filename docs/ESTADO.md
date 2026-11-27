@@ -1,6 +1,6 @@
 # App Gym: estado do projeto
 
-> Documento de referência, atualizado a cada alteração. Última atualização: **26-11-2026**.
+> Documento de referência, atualizado a cada alteração. Última atualização: **27-11-2026**.
 > Para retomar o trabalho noutra conversa, ler primeiro **[CONTINUAR.md](CONTINUAR.md)**.
 
 ## 1. O que é
@@ -58,6 +58,7 @@ Nota: no plano grátis, um projeto Supabase sem uso durante 7 dias fica em pausa
 6. Commit e push para `main` (publica sozinho).
 
 ## 6. Histórico de alterações
+- **27-11-2026**: Treino: kg antes das reps; uma série só fica feita com peso (pode ser 0) e reps preenchidos (os campos em falta ficam a vermelho); a linha da série feita fica toda a verde; o menu do tipo de série mostra o atual (Normal por defeito). Unidades nas Definições (kg/lb, km/mi, cm/in, ml/fl oz), os dados continuam guardados em métrico. Hábitos: o dia de hoje aparece como "Hoje". Nutrição: refeições com nomes à escolha, ordem, acrescentar e esconder (padrão: Pequeno-almoço, Almoço, Lanche, Jantar; campo novo `S.meals`); refeições personalizadas (`S.cmeals`, também "💾 Guardar como refeição"); ecrã de adicionar alimento abre em Recentes (dias anteriores dessa refeição, alimentos recentes com a última quantidade, botão ＋ rápido), com separadores Refeições e Os meus, e a pesquisa passa a ser um passo à parte; novo ecrã de quantidade (gráfico de macros, botões −/+). Exercícios: de ~210 para 564. Testado com a base de dados simulada: conta nova, telemóvel novo, conta antiga sem os campos novos, conflito entre dois aparelhos.
 - **26-11-2026**: Base de dados na nuvem (Supabase) com contas, sincronização automática, cópias diárias no aparelho e na nuvem, recuperação de dados estragados, armazenamento persistente e testes com base de dados simulada. Corrigido o texto das metas, que mostrava "Nota".
 - **26-11-2026**: Novo visual (cor por área, abas reorganizadas, separadores no Perfil).
 - **26-11-2026**: Supersets, notas por exercício, pesquisa online de alimentos (Open Food Facts e USDA).

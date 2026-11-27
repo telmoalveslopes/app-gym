@@ -15,7 +15,7 @@ const setSY=s=>{SY=s;drawSY()};
 function adopt(d){NOQ=1;try{S=d;W=S.W||null;fix();writeLocal()}finally{NOQ=0}R();if(ST)drawST()}
 // junta dois estados (b = o mais recente ganha quando há o mesmo registo nos dois)
 function mergeS(a,b){const o={...a,...b},byId=(x,y,k)=>{const m=new Map();(x||[]).forEach(e=>m.set(e[k],e));(y||[]).forEach(e=>m.set(e[k],e));return[...m.values()]};
-['habits','workouts','routines','tasks'].forEach(k=>o[k]=byId(a[k],b[k],'id'));['cfoods','custom'].forEach(k=>o[k]=byId(a[k],b[k],'n'));
+['habits','workouts','routines','tasks'].forEach(k=>o[k]=byId(a[k],b[k],'id'));['cfoods','custom'].forEach(k=>o[k]=byId(a[k],b[k],'n'));o.cmeals=byId(a.cmeals,b.cmeals,'id');o.meals=byId(a.meals,b.meals,'k');
 ['nlog','mood','wlog','barcodes','exRest'].forEach(k=>o[k]={...(a[k]||{}),...(b[k]||{})});
 o.habits.forEach(h=>{const ha=(a.habits||[]).find(y=>y.id===h.id);if(ha)h.done={...(ha.done||{}),...(h.done||{})}});
 o.workouts.sort((p,q)=>p.id-q.id);o.W=b.W||a.W||null;o.set={...(a.set||{}),...(b.set||{})};o.since=[a.since,b.since].filter(Boolean).sort()[0];o._at=Math.max(a._at||0,b._at||0);return o}

@@ -14,6 +14,4 @@ const LIB={
 'Lombar':'Hiperextensão|Extensão lombar na máquina|Superman|Bird dog',
 'Cardio e corpo inteiro':'Passadeira|Bicicleta estática|Elíptica|Remo ergómetro|Corda de saltar|Burpees|Kettlebell swing|Clean|Snatch|Thruster|Battle ropes|Escadas (stairmaster)|Assault bike|Turkish get-up|Salto à caixa|Caminhada inclinada'};
 const TYL={br:'Flexões|Flexões inclinadas|Flexões declinadas|Flexões diamante|Barra fixa pronada|Barra fixa supinada|Barra fixa pegada neutra|Paralelas para peito|Paralelas para tríceps|Mergulhos no banco|Remada invertida|Crunch|Sit-ups|Elevação de pernas suspenso|Elevação de joelhos suspenso|Elevação de pernas deitado|Roda abdominal|Russian twist|Bicicleta abdominal|Dragon flag|V-ups|Mountain climbers|Toques nos calcanhares|Sissy squat|Agachamento pistol|Nordic curl|Ponte de glúteos|Hiperextensão|Superman|Bird dog|Burpees|Elevação de tibiais|Salto à caixa',d:'Prancha|Prancha lateral|Suspensão na barra|Battle ropes|Corda de saltar',dd:'Passadeira|Bicicleta estática|Elíptica|Remo ergómetro|Escadas (stairmaster)|Assault bike|Caminhada inclinada',wd:'Passeio do fazendeiro'};
-const TYM={};for(const k in TYL)TYL[k].split('|').forEach(n=>TYM[n]=k);
-const EX=Object.entries(LIB).flatMap(([g,s])=>s.split('|').map(n=>({n,g,t:TYM[n]||'wr'}))),EXM=new Map(EX.map(e=>[e.n,e]));
-const FT={wr:['reps','kg'],wb:['reps','kg'],ab:['reps','kg'],br:['reps'],d:['time'],dw:['kg','time'],dd:['dist','time'],wd:['kg','dist']};
+// TYM, EX, EXM e FT montam-se no fim de 03b-exercises-more.js (depois de juntar os exercícios extra)

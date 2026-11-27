@@ -4,7 +4,7 @@ function sched(h){return h.f!=='w'?x('dly'):h.days&&h.days.length?x('wkly')+' ·
 const habsOn=d=>{const T=day();return S.habits.filter(h=>d<=T?due(h,d):(h.f!=='w'||(h.days&&h.days.includes(dow(d)))))};
 // % de hábitos cumpridos numa lista de dias (já passados)
 function habPct(days){let dn=0,ex=0;S.habits.forEach(h=>{dn+=days.filter(d=>hdone(h,d)).length;ex+=h.f!=='w'?days.length:h.days&&h.days.length?days.filter(d=>h.days.includes(dow(d))).length:Math.max(1,Math.round(h.t*days.length/7))});return ex?Math.min(100,Math.round(dn/ex*100)):0}
-function hsub(h,d){return h.auto?x('auto'):h.aw?`💧 ${wml(d)}/${wgoal()} ml`:h.f==='w'?(h.days&&h.days.length?sched(h):`${wk(h,d)}/${h.t} ${x('xw')}`):x('dly')}
+function hsub(h,d){return h.auto?x('auto'):h.aw?`💧 ${uIn('v',wml(d))}/${fu('v',wgoal())}`:h.f==='w'?(h.days&&h.days.length?sched(h):`${wk(h,d)}/${h.t} ${x('xw')}`):x('dly')}
 function hrow(h,d,fut){const on=hdone(h,d),s=h.f!=='w'?streak(h):0;
 return `<div class="hc ${on?'dn':''}"><span class="em">${esc(h.emoji)}</span><div class="grow"><div class="nm">${esc(h.name)}</div><div class="mut">${hsub(h,d)}</div></div>${s>1?`<span class="badge">🔥 ${s}</span>`:''}<button class="ck ${on?'on':''}" ${fut?'disabled style="opacity:.35"':''} onclick="A.tog(${h.id})">${on?'✓':''}</button></div>`}
 function tkrow(k,d){return `<div class="row"><button class="chk ${k.done?'on':''}" onclick="A.tt(${k.id})">${k.done?'✓':''}</button><div class="grow ${k.done?'str':''}">${esc(k.name)}${k.date!==d?`<div class="mut">${fd(k.date)}</div>`:''}</div><button class="btn red" onclick="A.dt(${k.id})">✕</button></div>`}
@@ -24,7 +24,7 @@ ${CLOUD_ON&&!CU?`<div class="hero" style="cursor:pointer;display:flex;align-item
 <div class="sh"><span>${x('habitos')}<span class="cnt">${dh}/${hs.length}</span></span><button class="lnk" onclick="A.tab('habitos')">${x('mng')} ›</button></div>
 ${hs.map(h=>hrow(h,d,fut)).join('')||`<div class="card empty"><span class="em">🌱</span>${x('none')}</div>`}
 <div class="sh"><span>${x('treino')}</span><button class="lnk" onclick="A.tab('treino')">${x('stk')} ›</button></div>
-<div class="card">${tr.map(w=>`<div class="row" style="cursor:pointer" onclick="A.wd(${w.id})"><span style="font-size:22px">✅</span><div class="grow"><b>${esc(w.name)}</b><div class="mut">${w.dur} min · ${vol(w)} kg</div></div><span class="mut">›</span></div>`).join('')}
+<div class="card">${tr.map(w=>`<div class="row" style="cursor:pointer" onclick="A.wd(${w.id})"><span style="font-size:22px">✅</span><div class="grow"><b>${esc(w.name)}</b><div class="mut">${w.dur} min · ${fvol(vol(w))}</div></div><span class="mut">›</span></div>`).join('')}
 ${isT?(W?`<button class="btn ar full" onclick="A.start()">▶ ${x('cw')}</button>`:`${tr.length?'':`<div class="mut">${x('nw')}</div>`}<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">${S.routines.map(r=>`<button class="btn alt sm" onclick="A.start(${r.id})">▶ ${esc(r.name)}</button>`).join('')}<button class="btn alt sm" onclick="A.start()">${x('fr')}</button></div>`):tr.length?'':`<div class="mut">${x('nod')}</div>`}</div>
 <div class="sh"><span>${x('tarefas')}${op.length?`<span class="cnt">${op.length}</span>`:''}</span></div>
 <div class="card"><div class="tadd"><input placeholder="${x('tph')}" value="${esc(HT.name)}" oninput="HT.name=this.value" onkeydown="if(event.key=='Enter')A.addT('${d}')"><button class="btn ar" onclick="A.addT('${d}')">＋</button></div>
@@ -41,5 +41,5 @@ ${HF.f=='w'?`<div style="display:flex;align-items:center;gap:8px;margin-top:10px
 return `<div class="hd"><div class="grow"><h1>${x('habitos')}</h1><div class="mut">${pc}% ${x('wpct')}</div></div>${open?'':`<button class="ibtn ar" onclick="A.nh()">＋</button>`}</div>
 ${open?form:''}
 ${S.habits.map(h=>{const s=h.f!=='w'?streak(h):0;return `<div class="card"><div style="display:flex;align-items:center;gap:12px"><span class="em" style="font-size:26px">${esc(h.emoji)}</span><div class="grow"><b style="font-size:17px">${esc(h.name)}</b><div class="mut">${sched(h)}${h.auto?' · '+x('auto'):''}</div></div>${s?`<span class="badge">🔥 ${s}</span>`:''}<button class="ibtn s" onclick="A.eh(${h.id})">✏️</button></div>
-<div class="dots7">${[6,5,4,3,2,1,0].map(i=>{const d=back(i);return `<button class="${hdone(h,d)?'on':''} ${i==0?'td':''}" onclick="A.tog(${h.id},'${d}')"><span>${DN()[dow(d)].slice(0,3)}</span><i></i></button>`}).join('')}</div></div>`}).join('')||`<div class="card empty"><span class="em">🌱</span>${x('hnone')}</div>`}
+<div class="dots7">${[6,5,4,3,2,1,0].map(i=>{const d=back(i);return `<button class="${hdone(h,d)?'on':''} ${i==0?'td':''}" onclick="A.tog(${h.id},'${d}')"><span>${i==0?x('hoje'):DN()[dow(d)].slice(0,3)}</span><i></i></button>`}).join('')}</div></div>`}).join('')||`<div class="card empty"><span class="em">🌱</span>${x('hnone')}</div>`}
 ${S.habits.length?`<div class="mut" style="text-align:center;margin-top:6px">${x('dsb')}</div>`:''}`}

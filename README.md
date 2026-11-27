@@ -44,7 +44,8 @@ src/
     00-core            helpers $, esc, norm
     01-i18n            textos PT/EN (D), nomes de exercícios EN (ENS), categorias
     02-theme           7 temas
-    03-exercises       LIB (exercícios por grupo muscular), tipos (reps/kg, tempo, distância...)
+    03-exercises       LIB (exercícios por grupo muscular), tipos (kg/reps, tempo, distância...)
+    03b-exercises-more mais ~350 exercícios (PT=EN#tipo) e montagem final de EX/FT
     04-state-storage   estado S, save() (localStorage), initDB() (opcional, só no artifact do Claude)
     05-helpers         datas, hábitos (streak, due), previous, volume
     06-actions         objeto A: todas as ações (hábitos, tarefas, treino, rotinas)
@@ -62,6 +63,7 @@ src/
     18-extras          histórico por exercício, peso, recentes, 7 dias, exportar
     19-online-foods    pesquisa online (Open Food Facts, USDA)
     20-cloud           contas e sincronização com a base de dados (Supabase)
+    21-food-add        adicionar alimento (recentes, dias anteriores, refeições guardadas), lista de refeições editável
     99-main            render R() e arranque
   config.js           ligação à nuvem (URL + chave pública)
   vendor/supabase.js  biblioteca Supabase (offline)

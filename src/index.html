@@ -15,13 +15,14 @@
 <main id="m"></main>
 <div id="rt"><span>⏱</span><b id="rtt"></b><button onclick="rtP()" id="rtp">⏸</button><button onclick="rtA(-15)">−15</button><button onclick="rtA(15)">+15</button><button onclick="RT=null;drawRT()">✕</button></div>
 <button id="gear" onclick="openST()">⚙️</button><nav id="n"></nav>
-<div id="pk"></div><div id="st"></div><div id="fd"></div><div id="gl"></div><div id="bc"></div><div id="eh"></div>
+<div id="pk"></div><div id="st"></div><div id="fd"></div><div id="gl"></div><div id="bc"></div><div id="eh"></div><div id="ml"></div>
 <script src="config.js"></script>
 <script src="vendor/supabase.js"></script>
 <script src="js/00-core.js"></script>
 <script src="js/01-i18n.js"></script>
 <script src="js/02-theme.js"></script>
 <script src="js/03-exercises.js"></script>
+<script src="js/03b-exercises-more.js"></script>
 <script src="js/04-state-storage.js"></script>
 <script src="js/05-helpers.js"></script>
 <script src="js/06-actions.js"></script>
@@ -39,6 +40,7 @@
 <script src="js/18-extras.js"></script>
 <script src="js/19-online-foods.js"></script>
 <script src="js/20-cloud.js"></script>
+<script src="js/21-food-add.js"></script>
 <script src="js/99-main.js"></script>
 <script>if('serviceWorker' in navigator&&location.protocol.startsWith('http')){const sw=navigator.serviceWorker,had=!!sw.controller;let rl=0;
 sw.register('sw.js').then(r=>document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='visible')r.update().catch(()=>{})})).catch(()=>{});
