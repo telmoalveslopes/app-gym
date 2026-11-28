@@ -33,7 +33,7 @@
 
 ## PRÓXIMO PASSO (pendente do Telmo)
 1. ~~Criar conta~~ e ~~tornar admin~~: feito a 28-11 (conta confirmada à mão no SQL Editor, perfil `admin`).
-2. No iPhone: ⚙️ (Perfil) → Conta e nuvem → **Entrar** com o email e a password. Os dados do telemóvel sobem para a conta.
+2. ~~Entrar no iPhone~~: feito a 28-11. Verificado no servidor: dados do iPhone guardados (4 hábitos, 1 dia de comida) e 1 cópia diária.
 3. Depois: confirmar no iPhone que aparece "Guardado na nuvem" e experimentar o personal trainer (Definições → Personal trainer).
 
 ## Ideias para depois (não pedidas ainda)

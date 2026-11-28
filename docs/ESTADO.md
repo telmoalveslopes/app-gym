@@ -74,6 +74,7 @@ Nota: no plano grátis, um projeto Supabase sem uso durante 7 dias fica em pausa
 6. Commit e push para `main` (publica sozinho).
 
 ## 6. Histórico de alterações
+- **28-11-2026 (3)**: Telmo entrou na conta no iPhone. Verificado no servidor: perfil `admin`, dados do iPhone em `app_data` e 1 cópia em `app_backups`.
 - **28-11-2026 (2)**: Corrigido erro «missing email or phone» ao entrar/criar conta: a proteção contra toques repetidos redesenhava o ecrã antes de ler o email e a password. Agora lê primeiro e mantém os campos preenchidos. Testado com cliques reais na base de dados simulada.
 - **28-11-2026**: Conta do Telmo criada; o link de confirmação falhou porque carregou várias vezes em «Criar conta» (cada email novo anula o link do anterior). Conta confirmada à mão no SQL Editor e tornada admin. Na app: «Criar conta»/«Entrar» não aceitam toques repetidos enquanto esperam; botão «Reenviar email de confirmação»; ao voltar de um link inválido aparece um aviso claro; ao voltar de um link bom aparece «Email confirmado» (no iPhone o link abre no Safari, depois entra-se na app do ecrã principal). Aviso: o email do Supabase grátis só envia poucos emails por hora e não deixa mudar o texto sem servidor de email (SMTP) próprio.
 - **27-11-2026**: Base de dados Supabase ligada: projeto `app-gym` criado (Frankfurt, plano grátis), `schema.sql` corrido, Site URL configurado, chave pública em `src/config.js`. Novo `supabase/test-security.sql` (34 verificações de segurança no servidor real, todas ok).
