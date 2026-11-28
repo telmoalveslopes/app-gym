@@ -1,6 +1,6 @@
 // Cache para funcionar offline. Rede primeiro (sempre a versão mais recente), cache só sem internet.
 // Aumenta VERSION quando mudares ficheiros.
-const VERSION='appgym-v11',FILES=['./','index.html','style.css','manifest.webmanifest','config.js','vendor/supabase.js'];
+const VERSION='appgym-v12',FILES=['./','index.html','style.css','manifest.webmanifest','config.js','vendor/supabase.js'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(VERSION).then(c=>c.addAll(FILES.map(f=>new Request(f,{cache:'reload'})))).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x!==VERSION).map(x=>caches.delete(x)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{const q=e.request;if(q.method!=='GET'||new URL(q.url).origin!==location.origin)return;

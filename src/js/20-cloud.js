@@ -56,12 +56,12 @@ catch(e){setSY(navigator.onLine===false?'off':'er')}finally{CBUSY=0}if(push)awai
 // ---- conta ----
 const errMsg=e=>{const m=String(e&&e.message||e);return /invalid login/i.test(m)?x('e_cred'):/not confirmed/i.test(m)?(ACONF=1,x('e_conf')):/rate limit|security purposes|only request/i.test(m)||e&&e.status==429?x('e_rate'):x('e_gen')+m};
 // impede toques repetidos enquanto espera pelo servidor (cada email novo anula o link do anterior)
-const abusy=async f=>{if(ABUSY)return;ABUSY=1;drawST();try{await f()}catch(e){AMSG=errMsg(e)}finally{ABUSY=0;drawST()}};
+const abusy=async f=>{if(ABUSY)return;const v=aval();ABUSY=1;drawST();const a=$('#aem'),b=$('#apw');if(a)a.value=v.em;if(b)b.value=v.pw;try{await f(v)}catch(e){AMSG=errMsg(e)}finally{const v=aval();ABUSY=0;drawST();const a=$('#aem'),b=$('#apw');if(a&&!a.value)a.value=v.em;if(b&&!b.value)b.value=v.pw}};
 const aval=()=>({em:($('#aem')||{}).value||'',pw:($('#apw')||{}).value||''});
-const accIn=()=>abusy(async()=>{const {em,pw}=aval();AMSG='';const {error}=await SB.auth.signInWithPassword({email:em.trim(),password:pw});if(error)AMSG=errMsg(error)});
-const accUp=()=>abusy(async()=>{const {em,pw}=aval();AMSG='';const {data,error}=await SB.auth.signUp({email:em.trim(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});AMSG=error?errMsg(error):data.session?'':x('m_conf');if(!error&&!data.session)ACONF=1});
-const accResend=()=>abusy(async()=>{const {em}=aval();if(!em.trim()){AMSG=x('eml')+'?';return}const {error}=await SB.auth.resend({type:'signup',email:em.trim(),options:{emailRedirectTo:location.origin+location.pathname}});AMSG=error?errMsg(error):x('m_sent')});
-const accReset=()=>abusy(async()=>{const {em}=aval();if(!em.trim()){AMSG=x('eml')+'?';return}const {error}=await SB.auth.resetPasswordForEmail(em.trim(),{redirectTo:location.origin+location.pathname});AMSG=error?errMsg(error):x('m_reset')});
+const accIn=()=>abusy(async({em,pw})=>{AMSG='';const {error}=await SB.auth.signInWithPassword({email:em.trim(),password:pw});if(error)AMSG=errMsg(error)});
+const accUp=()=>abusy(async({em,pw})=>{AMSG='';const {data,error}=await SB.auth.signUp({email:em.trim(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});AMSG=error?errMsg(error):data.session?'':x('m_conf');if(!error&&!data.session)ACONF=1});
+const accResend=()=>abusy(async({em})=>{if(!em.trim()){AMSG=x('eml')+'?';return}const {error}=await SB.auth.resend({type:'signup',email:em.trim(),options:{emailRedirectTo:location.origin+location.pathname}});AMSG=error?errMsg(error):x('m_sent')});
+const accReset=()=>abusy(async({em})=>{if(!em.trim()){AMSG=x('eml')+'?';return}const {error}=await SB.auth.resetPasswordForEmail(em.trim(),{redirectTo:location.origin+location.pathname});AMSG=error?errMsg(error):x('m_reset')});
 async function accNewPw(){const pw=($('#anp')||{}).value||'';const {error}=await SB.auth.updateUser({password:pw});AMSG=error?errMsg(error):x('pwok');if(!error)RECOV=0;drawST()}
 async function accOut(){await cloudPush();await SB.auth.signOut();CBKS=null;if(typeof PR!='undefined'){PR=null;CO=null;ADL=null}drawST()}
 async function cbkList(){const {data,error}=await SB.from('app_backups').select('day,created_at').eq('user_id',CU.id).order('day',{ascending:false}).limit(30);CBKS=error?[]:data;drawST()}
