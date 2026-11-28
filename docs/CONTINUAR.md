@@ -28,11 +28,12 @@
 - Código da base de dados na nuvem com contas, pronto e testado com uma base de dados simulada (`npm run test:cloud`).
 - 27-11: treino (kg antes das reps, séries só válidas com peso e reps, linha verde), unidades kg/lb etc., "Hoje" nos hábitos, refeições com nomes à escolha e personalizadas, novo ecrã de adicionar alimento (recentes primeiro), 564 exercícios.
 - 27-11: **personal trainer** (estatutos, ligação aluno→PT por código, painel com o progresso dos alunos, plano com metas/rotinas/hábitos/refeições/pesagens/nota, admin). Ver `docs/ESTADO.md` secção 2.1.
+- 28-11: confirmação de email mais robusta (sem toques repetidos, botão reenviar, aviso de link inválido). O Supabase grátis envia poucos emails por hora: se vierem muitos alunos de uma vez, ligar um SMTP próprio (ex.: Resend ou Brevo).
 - 27-11: **base de dados Supabase ligada** (projeto criado, `schema.sql` corrido, Site URL configurado, chave pública em `src/config.js`). As 34 regras de segurança testadas no servidor real com `supabase/test-security.sql`: todas ok, e o teste não deixa nada gravado.
 
 ## PRÓXIMO PASSO (pendente do Telmo)
-1. No iPhone: ⚙️ (Perfil) → Conta e nuvem → **Criar conta** → confirmar o email → **Entrar**. Os dados do telemóvel sobem para a conta.
-2. Dizer ao Claude o email usado, para ele correr o SQL que te torna admin (`docs/ESTADO.md` secção 3, passo 6).
+1. ~~Criar conta~~ e ~~tornar admin~~: feito a 28-11 (conta confirmada à mão no SQL Editor, perfil `admin`).
+2. No iPhone: ⚙️ (Perfil) → Conta e nuvem → **Entrar** com o email e a password. Os dados do telemóvel sobem para a conta.
 3. Depois: confirmar no iPhone que aparece "Guardado na nuvem" e experimentar o personal trainer (Definições → Personal trainer).
 
 ## Ideias para depois (não pedidas ainda)
